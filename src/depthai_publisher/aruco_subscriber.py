@@ -20,10 +20,10 @@ class ArucoDetector():
     frame_sub_topic = '/iris_and_depth_camera0/ov7251/image_raw'
     # camera_matrix
     # mtx = np.array([[623.680552, 0, (256/2)], [0, 623.680552, (192/2)], [0, 0, 1]], dtype=np.float)
-    mtx = np.array([[256.0, 0.0, 128.0],[0.0, 192.0, 96.0],[0.0, 0.0, 1.0]], dtype=np.float)
+    mtx = np.array([[256.0, 0.0, 128.0],[0.0, 192.0, 96.0],[0.0, 0.0, 1.0]], dtype=float)
     
     # distortion_coefficients
-    dist = np.array([[0, 0, 0, 0]], dtype=np.float)
+    dist = np.array([[0, 0, 0, 0]], dtype=float)
 
     # Class Variables fro aruco frame
     tfbr = None
