@@ -13,11 +13,11 @@ from std_msgs.msg import Time
 from geometry_msgs.msg import TransformStamped
 
 class ArucoDetector():
-    aruco_dict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_5X5_100) 
-    # aruco_dict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_ARUCO_ORIGINAL) 
+    #aruco_dict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_5X5_250) 
+    aruco_dict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_ARUCO_ORIGINAL) 
     aruco_params = cv2.aruco.DetectorParameters_create()
 
-    frame_sub_topic = '/iris_and_depth_camera0/ov7251/image_raw'
+    frame_sub_topic = '/iris_and_depth_camera1/ov7251/image_raw'
     # camera_matrix
     # mtx = np.array([[623.680552, 0, (256/2)], [0, 623.680552, (192/2)], [0, 0, 1]], dtype=np.float)
     mtx = np.array([[256.0, 0.0, 128.0],[0.0, 192.0, 96.0],[0.0, 0.0, 1.0]], dtype=float)
