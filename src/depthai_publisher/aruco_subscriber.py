@@ -11,13 +11,14 @@ import tf, tf2_ros
 import math
 from std_msgs.msg import Time
 from geometry_msgs.msg import TransformStamped
+from std_msgs.msg import Bool
 
 class ArucoDetector():
     #aruco_dict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_5X5_250) 
     aruco_dict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_ARUCO_ORIGINAL) 
     aruco_params = cv2.aruco.DetectorParameters_create()
 
-    frame_sub_topic = '/iris_and_depth_camera1/ov7251/image_raw'
+    frame_sub_topic = '/UAV0/ov7251/image_raw'
     # camera_matrix
     # mtx = np.array([[623.680552, 0, (256/2)], [0, 623.680552, (192/2)], [0, 0, 1]], dtype=np.float)
     mtx = np.array([[256.0, 0.0, 128.0],[0.0, 192.0, 96.0],[0.0, 0.0, 1.0]], dtype=float)
@@ -35,6 +36,7 @@ class ArucoDetector():
     def __init__(self):
         self.aruco_pub = rospy.Publisher(
             '/processed_aruco/image/compressed', CompressedImage, queue_size=10)
+        self.land_pub = rospy.Publisher('/land_trigger', Bool, queue_size=10)    
 
         self.br = CvBridge()
 
@@ -59,6 +61,8 @@ class ArucoDetector():
         # cv2.waitKey(1)
 
     def find_aruco(self, frame):
+        desired_marker_ID = 22
+
         (corners, ids, _) = cv2.aruco.detectMarkers(
             frame, self.aruco_dict, parameters=self.aruco_params)
 
@@ -87,6 +91,9 @@ class ArucoDetector():
                 lenght_marker=0.15
                 rvec, tvec, markerPoints = cv2.aruco.estimatePoseSingleMarkers(marker_corner, lenght_marker, self.mtx, self.dist)
                 cv2.drawFrameAxes(frame, self.mtx, self.dist, rvec, tvec, 0.05)
+                if(marker_ID == desired_marker_ID):
+                    self.land_pub.publish(True)
+
 
                 # print(markerPoints)
 
