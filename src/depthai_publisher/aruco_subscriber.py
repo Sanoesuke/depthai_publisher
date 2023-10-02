@@ -99,11 +99,10 @@ class ArucoDetector():
                 rvec, tvec, markerPoints = cv2.aruco.estimatePoseSingleMarkers(marker_corner, lenght_marker, self.mtx, self.dist)
                 cv2.drawFrameAxes(frame, self.mtx, self.dist, rvec, tvec, 0.05)
                 if(marker_ID == desired_marker_ID):
-                    # self.land_pub0.publish(True)
-                    # self.land_pub1.publish(True)
-                    # self.land_pub2.publish(True)
+                    self.land_pub0.publish(True)
+                    self.land_pub1.publish(True)
+                    self.land_pub2.publish(True)
 
-                    pass
                 # print(markerPoints)
 
                 self.send_tf_target(rvec,tvec,marker_ID)
