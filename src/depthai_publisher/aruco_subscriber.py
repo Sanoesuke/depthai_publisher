@@ -41,7 +41,9 @@ class ArucoDetector():
 
         self.aruco_pub = rospy.Publisher(
             f'/{self.camera_topic_name}/processed_aruco/image/compressed', CompressedImage, queue_size=10)
-        self.land_pub = rospy.Publisher('/land_trigger', Bool, queue_size=10)    
+        self.land_pub0 = rospy.Publisher("/land_trigger_UAV0", Bool, queue_size=10) 
+        self.land_pub1 = rospy.Publisher("/land_trigger_UAV1", Bool, queue_size=10) 
+        self.land_pub2 = rospy.Publisher("/land_trigger_UAV2", Bool, queue_size=10)    
     
         self.br = CvBridge()
 
@@ -97,9 +99,11 @@ class ArucoDetector():
                 rvec, tvec, markerPoints = cv2.aruco.estimatePoseSingleMarkers(marker_corner, lenght_marker, self.mtx, self.dist)
                 cv2.drawFrameAxes(frame, self.mtx, self.dist, rvec, tvec, 0.05)
                 if(marker_ID == desired_marker_ID):
-                    self.land_pub.publish(True)
+                    # self.land_pub0.publish(True)
+                    # self.land_pub1.publish(True)
+                    # self.land_pub2.publish(True)
 
-
+                    pass
                 # print(markerPoints)
 
                 self.send_tf_target(rvec,tvec,marker_ID)
@@ -152,8 +156,8 @@ class ArucoDetector():
         ty = tvec[0][0][1]
         tz = tvec[0][0][2]    # - altitude of the UAV camera Z.
 
-        print("Translation x: {}, y: {}, z: {}".format(tx,ty,tz))
-        print("Quaternion: w: {}, x: {}, y: {}, z: {} ".format(quaternion[0],quaternion[1],quaternion[2],quaternion[3]))
+        # print("Translation x: {}, y: {}, z: {}".format(tx,ty,tz))
+        # print("Quaternion: w: {}, x: {}, y: {}, z: {} ".format(quaternion[0],quaternion[1],quaternion[2],quaternion[3]))
         
         t.transform.translation.x = tx
         t.transform.translation.y = ty
